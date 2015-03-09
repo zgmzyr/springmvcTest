@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class SingletonTestController {
 	
 //	 @Autowired
-//	 private XxxxManagerService xxxxManagerService; //xxxxManagerService 是事实不可变变量,不存在线程安全问题
+//	 private XxxxService xxxxService; //xxxxService 是事实不可变变量,不会发生线程安全问题
 
 	//TODO number非事实不可变变量,会经常改变,存在线程安全问题
 	private String number;

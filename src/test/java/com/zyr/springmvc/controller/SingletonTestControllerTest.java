@@ -43,6 +43,7 @@ public class SingletonTestControllerTest {
 		jettyServer.stop();
 	}
 	
+	
 	@Test
 	public void test() throws Exception {
 		ExecutorService executor = Executors.newFixedThreadPool(4);
@@ -50,40 +51,26 @@ public class SingletonTestControllerTest {
 		
 		
 		List<Future<Result>> resultList = new ArrayList<>();
+//		for (int num = 0; num < 1; num++) { //如果num(即"用户数")为1的话,是没问题的,
 		for (int num = 0; num < 4; num++) {
 			String nextInt = String.valueOf(random.nextInt(10000));
 			Future<Result> resultTem = executor.submit(new Task(nextInt));
 			
 			resultList.add(resultTem);
-		}
-		
-		System.out.println("test");
+		}		
 		
 		for (Future<Result> future : resultList) {
 			Result result = future.get();
 			System.out.println("expected=" + result.getExpected() + "; actual=" + result.getActual());
-			assertEquals(result.getExpected(), result.getActual());
-		}
-		
-		/*
-		List<Result> resultList = new ArrayList<>();
-		for (int num = 0; num < 6; num++) {
-			String nextInt = String.valueOf(random.nextInt(10000));
-			Future<Result> resultTem = executor.submit(new Task(nextInt));
-			
-			resultList.add(resultTem.get());
-		}
-		
-		System.out.println("test");
-		
-		for (Result result : resultList) {
-			assertEquals(result.getExpected() , result.getActual());
-			System.out.println("expected=" + result + "" + result.getActual());
-		}
-		*/
+			//如果不会产生并发问题:result.getExpected() == result.getActual() 应该为true			
+			assertEquals(result.getExpected(), result.getActual()); 
+		}		
 	}
 	
 	private static class Task implements Callable<Result> {
+		/**
+		 * 用于模拟页面中需要传递到后台的值
+		 */
 		private final String count;
 		public Task(String count) {
 			this.count = count;
@@ -95,6 +82,7 @@ public class SingletonTestControllerTest {
 			webClient.getOptions().setTimeout(0);
 			UnexpectedPage textPage = null;
 			try {
+				//访问 SingletonTestController 类的test方法
 				textPage = webClient.getPage("http://localhost:8080/test/" + count);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -106,7 +94,13 @@ public class SingletonTestControllerTest {
 	}
 	
 	private static class Result {
+		/**
+		 * 期望值
+		 */
 		private final String expected;
+		/**
+		 * 实际值
+		 */
 		private final String actual;
 
 		public Result(String expected, String actual) {

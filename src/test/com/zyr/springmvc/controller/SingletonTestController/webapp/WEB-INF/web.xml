@@ -5,15 +5,6 @@
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
   
-   <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring/spring-context.xml</param-value>
-    </context-param>
-    
-<!--     <listener> -->
-<!--         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> -->
-<!--     </listener> -->
-    
 	<!-- Spring Mvc -->
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>
@@ -22,10 +13,6 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>classpath:dispatcher-servlet.xml</param-value>
 		</init-param>
-<!-- 		<init-param> -->
-<!-- 			<param-name>contextInitializerClasses</param-name> -->
-<!-- 			<param-value>com.zyr.spring.SpringApplicationContextInitializer</param-value> -->
-<!-- 		</init-param> -->
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
